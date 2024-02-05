@@ -6,7 +6,8 @@ import { useForm } from "react-hook-form";
 import { SignupValidation } from "@/lib/validation";
 import { z } from "zod";
 import Loader from "@/components/shared/Loader";
-import { useState } from "react";
+import { createUserAccount } from "@/lib/appwrite/api";
+import { Link } from "react-router-dom";
 
 
 const SignupForm = () => {
@@ -24,10 +25,9 @@ const isLoading:boolean = false
     },
   });
 
-  function onSubmit(values: z.infer<typeof SignupValidation>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof SignupValidation>) {
+    const newUser = await createUserAccount(values)
+    console.log(newUser)
   }
   return (
     <Form {...form}>
@@ -77,7 +77,7 @@ const isLoading:boolean = false
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input type="text" className="shad-input" {...field} />
+                  <Input type="email" className="shad-input" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -99,6 +99,14 @@ const isLoading:boolean = false
           <Button   type="submit" className="shad-button_primary">{isLoading ? (
             <div className="flex-center gap-2"> <Loader/> Loading...</div>):"Sign Up"}
           </Button>
+          <p className="text-small-regular text-light-2 text-center mt-2">
+            Don&apos;t have an account?
+            <Link
+              to="/sign-up"
+              className="text-primary-500 text-small-semibold ml-1">
+              Sign up
+            </Link>
+          </p>
         </form>
       </div>
     </Form>
