@@ -5,3 +5,8 @@ import { z } from "zod";
     email: z.string().email(),
     password: z.string().min(8, { message: "Password must be more dificult" }),
   });
+
+  export const SigninValidation = z.object({
+    email: z.string().email(),
+    password: z.string().min(8, { message: "Password must be more dificult" }),
+  });

@@ -12,7 +12,6 @@ export const appwriteConfig = {
 
 
 
-
 export const client = new Client();
 
 client.setEndpoint(appwriteConfig.url);

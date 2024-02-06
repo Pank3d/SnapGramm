@@ -15,7 +15,7 @@ export async function createUserAccount(user: INewUser) {
 
     const avatarUrl = avatars.getInitials(user.name)
     const newUser = await saveUserToDB({
-      accountId: newAccount.$id,
+      accountid: newAccount.$id,
       email: newAccount.email,
       name: newAccount.name,
       username: user.username,
@@ -30,7 +30,7 @@ export async function createUserAccount(user: INewUser) {
 }
 
 export async function saveUserToDB(user:{
-  accountId:string,
+  accountid:string,
   email:string, 
   name:string,
   imageUrl:any,
@@ -67,11 +67,21 @@ export async function getCurrentUser(){
     const CurrentUser = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.userCollectionId,
-      [Query.equal('accountId', currentAccount.$id)]
-    )
+      [Query.equal("accountid", currentAccount.$id)]
+    );
     if(!CurrentUser) throw Error
     return CurrentUser.documents[0]
   } catch (error) {
     console.log(error)
+  }
+}
+
+
+export async function signOutAccount() {
+  try {
+    const session = await account.deleteSession("current")
+    return session
+  } catch (error) {
+    console.log(error);
   }
 }

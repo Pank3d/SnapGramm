@@ -16,7 +16,7 @@ import Loader from "@/components/shared/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
 import {
-  useCreateUserAccount,
+  useCreateUserAccountMutations,
   useSignInAccount,
 } from "@/lib/react-query/quariesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
@@ -27,7 +27,7 @@ const SignupForm = () => {
   const navigate = useNavigate()
   
   const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
-    useCreateUserAccount();
+    useCreateUserAccountMutations();
 
   const { mutateAsync: signInAccount, isPending: isSigningIn } =
     useSignInAccount();
@@ -57,7 +57,7 @@ const SignupForm = () => {
     if (!session) {
       return toast({ title: "Sign in failed. Please try Again" });
     }
-    const isLoggedIn = await checkAuthUser();
+      const isLoggedIn = await checkAuthUser();
     if (isLoggedIn) {
       form.reset();
       navigate("/")
@@ -144,9 +144,9 @@ const SignupForm = () => {
             )}
           </Button>
           <p className="text-small-regular text-light-2 text-center mt-2">
-            Don&apos;t have an account?
+            Already have an account??
             <Link
-              to="/sign-up"
+              to="/sign-in"
               className="text-primary-500 text-small-semibold ml-1"
             >
               Log in
